@@ -1,20 +1,45 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Abonar con Mercado Pago
     </ion-title>
   </ion-toolbar>
+  
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+ 
+<form #formulario="ngForm" (ngSubmit)="pagar()">
+<ion-list>
+  <ion-input placeholder="Descripcion" [(ngModel)]="dataCheckout.description" type="text" 
+             name="description" id="description"></ion-input>
+  <ion-input placeholder="Monto a Pagar" [(ngModel)]="dataCheckout.transaction_amount"
+              name="transaction_amount" id="transaction_amount"></ion-input>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ion-input placeholder="Numero de la tarjeta" [(ngModel)]="dataCheckout.cardNumber"
+            type="text" id="cardNumber"  onselectstart="return false" 
+            onpaste="return false" onCopy="return false" onCut="return false" 
+            onDrag="return false" onDrop="return false" autocomplete=off></ion-input>
+
+  <ion-input placeholder="Nombre y apellido del titular" [(ngModel)]="dataCheckout.cardholdername"
+            type="text" id="cardholderName" dataCheckout="cardholderName"></ion-input>
+
+  <ion-input placeholder="Mes de Vencimiento" [(ngModel)]="dataCheckout.cardExpirationMonth"></ion-input>
+  <ion-input placeholder="Año de Vencimiento" [(ngModel)]="dataCheckout.cardExpirationYear"></ion-input>
+  <ion-input placeholder="Codigo de Seguridad" [(ngModel)]="dataCheckout.securityCode"></ion-input>
+  <ion-input placeholder="Cuotas" [(ngModel)]="dataCheckout.cuotas"></ion-input>
+  <ion-row>
+    <ion-col size="5">
+
+      <ion-input placeholder="Tipo de Documento" [(NgModel)]="dataCheckout.docType"></ion-input>
+    </ion-col>
+    <ion-col size="7">
+      <ion-input placeholder="Numero de documento" [(NgModel)]="dataCheckout.docNumber"></ion-input>
+    </ion-col>
+  </ion-row>
+  <ion-input placeholder="Email"></ion-input>
+
+  <ion-button expand="full" type="submit">Pagar</ion-button>
+</ion-list>
+</form>
 </ion-content>

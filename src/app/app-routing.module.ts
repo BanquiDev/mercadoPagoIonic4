@@ -11,6 +11,10 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'form-mp',
+    loadChildren: () => import('./pages/form-mp/form-mp.module').then( m => m.FormMpPageModule)
+  },
 ];
 
 @NgModule({
