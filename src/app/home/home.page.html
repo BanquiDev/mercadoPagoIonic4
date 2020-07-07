@@ -24,7 +24,11 @@
   <ion-input placeholder="Nombre y apellido del titular" [(ngModel)]="dataCheckout.cardholdername"
             type="text" id="cardholderName" dataCheckout="cardholderName"></ion-input>
 
-  <ion-input placeholder="Mes de Vencimiento" [(ngModel)]="dataCheckout.cardExpirationMonth"></ion-input>
+  <ion-input placeholder="Mes de Vencimiento" [(ngModel)]="dataCheckout.cardExpirationMonth"
+              type="text" id="cardExpirationMonth" data-checkout="cardExpirationMonth" onselectstart="return false" 
+              onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" 
+              onDrop="return false" autocomplete=off></ion-input>
+              
   <ion-input placeholder="Año de Vencimiento" [(ngModel)]="dataCheckout.cardExpirationYear"></ion-input>
   <ion-input placeholder="Codigo de Seguridad" [(ngModel)]="dataCheckout.securityCode"></ion-input>
   <ion-input placeholder="Cuotas" [(ngModel)]="dataCheckout.cuotas"></ion-input>

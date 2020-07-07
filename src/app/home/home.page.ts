@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 
-//declare var mercadoPago:any
+declare var mercadoPago:any
 
 @Component({
   selector: 'app-home',

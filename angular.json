@@ -39,9 +39,7 @@
                 "input": "src/global.scss"
               }
             ],
-            "scripts": [
-              "https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
