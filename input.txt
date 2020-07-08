@@ -1,0 +1,1 @@
+<!-- <ion-input #payment_method_id [value]="payment_method_id" type="hidden" name="payment_method_id" id="payment_method_id"></ion-input> -->
