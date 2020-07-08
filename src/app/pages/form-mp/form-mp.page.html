@@ -6,7 +6,7 @@
 </ion-header>
 
 <ion-content>
-  <form #formulario="ngForm" (ngSubmit)="pagar(formulario)" id="pay" name="pay" >
+  <form #formulario="ngForm" (ngSubmit)="doPay(formulario)" id="pay" name="pay" >
     <fieldset>
       <ion-item>
           <ion-label for="description" color="primary">Descripción</ion-label>                        
@@ -15,12 +15,12 @@
 
       <ion-item>
           <ion-label for="transaction_amount" color="primary">Monto a pagar</ion-label>                        
-          <ion-input name="transaction_amount" id="transaction_amount" value="100"></ion-input>
+          <ion-input #transaction_amount name="transaction_amount" id="transaction_amount" value="100"></ion-input>
         </ion-item>
 
       <ion-item>
           <ion-label for="cardNumber" color="primary">Número de la tarjeta</ion-label>
-          <ion-input  (ionChange)="cardNumber" 
+          <ion-input  (ionChange)="guessPaymentMethod($event)" 
           #cardNumber type="text" id="cardNumber" data-checkout="cardNumber" 
           onselectstart="return false" onpaste="return false" onCopy="return false" 
           onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off ></ion-input>
@@ -54,7 +54,7 @@
 
         <ion-item>
             <ion-label for="installments" color="primary">Cuotas</ion-label>
-            <select id="installments" class="form-control" name="installments"></select>
+            <select #installments id="installments" class="form-control" name="installments"></select>
         </ion-item>
       
         <ion-item>
@@ -74,8 +74,8 @@
             <ion-input type="email" id="email" name="email" value="test@test.com"></ion-input>
         </ion-item> 
 
-      <ion-input type="hidden" name="payment_method_id" id="payment_method_id"></ion-input>
-      <ion-input type="submit" value="Pagar"></ion-input>
+      <!-- <ion-input #payment_method_id [value]="payment_method_id" type="hidden" name="payment_method_id" id="payment_method_id"></ion-input> -->
+      <ion-button type="submit" expand="full">Pagar</ion-button>
     </fieldset>
   </form>
 </ion-content>
