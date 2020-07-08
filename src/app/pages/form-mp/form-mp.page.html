@@ -6,7 +6,7 @@
 </ion-header>
 
 <ion-content>
-  <form #formulario="ngForm" (ngSubmit)="pagar()" id="pay" name="pay" >
+  <form #formulario="ngForm" (ngSubmit)="pagar(formulario)" id="pay" name="pay" >
     <fieldset>
       <ion-item>
           <ion-label for="description" color="primary">Descripción</ion-label>                        
@@ -20,7 +20,8 @@
 
       <ion-item>
           <ion-label for="cardNumber" color="primary">Número de la tarjeta</ion-label>
-          <ion-input [(ngModel)]="cardNumber" (ionChange)t=ype="text" id="cardNumber" data-checkout="cardNumber" 
+          <ion-input  (ionChange)="cardNumber" 
+          #cardNumber type="text" id="cardNumber" data-checkout="cardNumber" 
           onselectstart="return false" onpaste="return false" onCopy="return false" 
           onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off ></ion-input>
       </ion-item>
