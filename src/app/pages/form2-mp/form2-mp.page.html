@@ -8,38 +8,37 @@
 <ion-content>
   <form #formulario="ngForm" (ngSubmit)="doPay(formulario)" id="pay" name="pay" >
     <fieldset>
-      <ion-list>
-        <ion-item>
-            <ion-label for="description" color="primary">Descripción</ion-label>                        
-            <ion-input type="text" name="description" id="description" value="Ítem seleccionado"></ion-input>
-        </ion-item>   
+      <ion-item>
+          <ion-label for="description" color="primary">Descripción</ion-label>                        
+          <ion-input type="text" name="description" id="description" value="Ítem seleccionado"></ion-input>
+      </ion-item>   
 
-        <ion-item>
-            <ion-label for="transaction_amount" color="primary">Monto a pagar</ion-label>                        
-            <ion-input #transaction_amount name="transaction_amount" id="transaction_amount" value="100"></ion-input>
-          </ion-item>
-
-        <ion-item>
-            <ion-label for="cardNumber" color="primary">Número de la tarjeta</ion-label>
-            <ion-input  (ionChange)="guessPaymentMethod($event)" 
-            #cardNumber type="text" id="cardNumber" data-checkout="cardNumber" 
-            onselectstart="return false" onpaste="return false" onCopy="return false" 
-            onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off ></ion-input>
+      <ion-item>
+          <ion-label for="transaction_amount" color="primary">Monto a pagar</ion-label>                        
+          <ion-input #transaction_amount name="transaction_amount" id="transaction_amount" value="100"></ion-input>
         </ion-item>
 
-        <ion-item>
-            <ion-label for="cardholderName" color="primary">Nombre y apellido</ion-label>
-            <ion-input type="text" id="cardholderName" data-checkout="cardholderName" ></ion-input>
-        </ion-item> 
+      <ion-item>
+          <ion-label for="cardNumber" color="primary">Número de la tarjeta</ion-label>
+          <ion-input  (ionChange)="guessPaymentMethod($event)" 
+          #cardNumber type="text" id="cardNumber" data-checkout="cardNumber" 
+          onselectstart="return false" onpaste="return false" onCopy="return false" 
+          onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off ></ion-input>
+      </ion-item>
 
-        <ion-item>
+      <ion-item>
+          <ion-label for="cardholderName" color="primary">Nombre y apellido</ion-label>
+          <ion-input type="text" id="cardholderName" data-checkout="cardholderName" ></ion-input>
+      </ion-item> 
+
+      <ion-item>
           <ion-label for="cardExpirationMonth" color="primary">Mes de vencimiento</ion-label>
           <ion-input type="text" id="cardExpirationMonth" data-checkout="cardExpirationMonth" 
           onselectstart="return false" onpaste="return false" onCopy="return false" 
           onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off ></ion-input>
         </ion-item>
 
-        <ion-item>
+      <ion-item>
           <ion-label for="cardExpirationYear" color="primary">Año de vencimiento</ion-label>
           <ion-input type="text" id="cardExpirationYear" data-checkout="cardExpirationYear" 
           onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" 
@@ -75,7 +74,7 @@
             <ion-label for="email" color="primary">Email</ion-label>
             <ion-input type="email" id="email" name="email" value="test@test.com"></ion-input>
         </ion-item> 
-      </ion-list>
+
       
       <ion-button type="submit" expand="full">Pagar</ion-button>
     </fieldset>

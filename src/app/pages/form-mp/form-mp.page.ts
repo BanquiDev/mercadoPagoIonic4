@@ -7,6 +7,39 @@ import { NgForm } from '@angular/forms';
 declare var Mercadopago:any
 
 var respuesta = {}
+var transaction_amount = ''
+var installments = {}
+var nCuotas = []
+var msjCuotas = [];
+
+  function getInstallments(){
+    Mercadopago.getInstallments({
+      
+    "payment_method_id": respuesta,
+    "amount": parseFloat(transaction_amount)
+
+    }, function (status, response) {
+    if (status == 200) {
+        console.log(response[0].payer_costs)
+        installments = response[0].payer_costs
+      
+        //  this.installments.options.length = 0;
+        response[0].payer_costs.forEach( installment => {
+            //let opt = document.createElement('option');
+            msjCuotas.push( installment.recommended_message);
+            nCuotas.push(installment.installments);
+            console.log(installment.installments)
+            
+           // this.installments.appendChild(opt);
+            
+        });
+    } else {
+        alert(`installments method info error: ${response}`);
+      }
+      console.log(msjCuotas)
+            console.log(nCuotas)
+    });
+  }
 
 @Component({
   selector: 'app-form-mp',
@@ -17,12 +50,15 @@ export class FormMpPage implements OnInit {
   docType:any;
   doSubmit:boolean = false
   paymentMethodId:string;
+  installmentOptions;
+  installmentMessage;
 
   @ViewChild('cardNumber', {static:true}) cardNumber:string
   @ViewChild('installments', {static:true}) installments:string;
    
   @ViewChild('transaction_amount', {static:true}) transaction_amount:any;
   @ViewChild('formulario', {static:true}) formulario:Object;
+
   constructor( ) { 
     
     console.log(typeof Mercadopago)
@@ -30,7 +66,7 @@ export class FormMpPage implements OnInit {
 
     Mercadopago.getIdentificationTypes((status, response)=>{
       if (status !== 200){
-        console.log(status)
+        
       }else{
         console.log(response)
         this.docType = response
@@ -44,6 +80,7 @@ export class FormMpPage implements OnInit {
     //mp.setPublishableKey('TEST-a3935daa-4d33-4f19-8f2b-62e117cc4158')
     this.paymentMethodId = '';
     console.log(typeof this.paymentMethodId)
+    console.log(this.transaction_amount.value)
   }
   pagar(){
     console.log()
@@ -58,13 +95,18 @@ export class FormMpPage implements OnInit {
     //console.log(event.detail.value)
     //  this.cardNumber = event.detail.value
     let cardnumber = event.detail.value;
-    console.log(cardnumber)
+     transaction_amount = this.transaction_amount.value
+    
     if (cardnumber.length >= 6) {
         let bin = cardnumber.substring(0,6);
-        console.log(bin)
+        
         Mercadopago.getPaymentMethod({
             "bin": bin
         }, this.setPaymentMethod);
+
+        this.installmentOptions = nCuotas
+        this.installmentMessage = msjCuotas
+        console.log(this.installmentOptions)
     }
   }
 
@@ -80,35 +122,16 @@ export class FormMpPage implements OnInit {
         console.log(respuesta)
         //this.payment_method_id = paymentMethodId;
         //console.log(this.paymentMethodId)
-        this.getInstallments();
+        getInstallments();
+        
+        
     } else {
         console.log(response)
         alert(`payment method info error: ${response}`);
     }
   }
 
-  getInstallments(){
-        Mercadopago.getInstallments({
-          
-        "payment_method_id": respuesta,
-        "amount": parseFloat(this.transaction_amount)
-
-    }, function (status, response) {
-        if (status == 200) {
-            console.log(response)
-              this.installments.options.length = 0;
-            response[0].payer_costs.forEach( installment => {
-                let opt = document.createElement('option');
-                opt.text = installment.recommended_message;
-                opt.value = installment.installments;
-                this.installments.appendChild(opt);
-                console.log(response)
-            });
-        } else {
-            alert(`installments method info error: ${response}`);
-        }
-    });
-  }
+ 
 
   doPay(formulario){
     
