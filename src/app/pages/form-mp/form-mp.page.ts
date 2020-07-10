@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, Validator } from '@angular/forms';
 //import {mercadopago} from 'mercadopago/index'
 //import * as metodos from './metodos.js';
 
@@ -50,18 +50,19 @@ export class FormMpPage implements OnInit {
   docType:any;
   doSubmit:boolean = false
   paymentMethodId:string;
-  installmentOptions;
-  installmentMessage;
+  installmentOptions = []
+    
+  
 
   @ViewChild('cardNumber', {static:true}) cardNumber:string
   @ViewChild('installments', {static:true}) installments:string;
-   
+  @ViewChild('options', {static:true}) options:string;
   @ViewChild('transaction_amount', {static:true}) transaction_amount:any;
   @ViewChild('formulario', {static:true}) formulario:Object;
 
   constructor( ) { 
     
-    console.log(typeof Mercadopago)
+    console.log(Mercadopago)
     Mercadopago.setPublishableKey('TEST-a3935daa-4d33-4f19-8f2b-62e117cc4158')
 
     Mercadopago.getIdentificationTypes((status, response)=>{
@@ -73,6 +74,7 @@ export class FormMpPage implements OnInit {
         console.log(this.docType)
       }
     })
+    console.log(installments)
   }
   
   ngOnInit() {
@@ -82,18 +84,10 @@ export class FormMpPage implements OnInit {
     console.log(typeof this.paymentMethodId)
     console.log(this.transaction_amount.value)
   }
-  pagar(){
-    console.log()
-  }
-
-  // cardValue(event){
-  //   console.log(event)
-  //   this.cardNumber = event.detail.value
-  // }
+  
 
   guessPaymentMethod(event) {
-    //console.log(event.detail.value)
-    //  this.cardNumber = event.detail.value
+   
     let cardnumber = event.detail.value;
      transaction_amount = this.transaction_amount.value
     
@@ -104,8 +98,10 @@ export class FormMpPage implements OnInit {
             "bin": bin
         }, this.setPaymentMethod);
 
-        this.installmentOptions = nCuotas
-        this.installmentMessage = msjCuotas
+        this.installmentOptions[0] = nCuotas
+
+        
+        this.installmentOptions[1] = msjCuotas
         console.log(this.installmentOptions)
     }
   }

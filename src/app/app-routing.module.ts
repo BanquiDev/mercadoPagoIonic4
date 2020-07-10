@@ -19,6 +19,10 @@ const routes: Routes = [
     path: 'form2-mp',
     loadChildren: () => import('./pages/form2-mp/form2-mp.module').then( m => m.Form2MpPageModule)
   },
+  {
+    path: 'form-js',
+    loadChildren: () => import('./pages/form-js/form-js.module').then( m => m.FormJsPageModule)
+  },
 ];
 
 @NgModule({
