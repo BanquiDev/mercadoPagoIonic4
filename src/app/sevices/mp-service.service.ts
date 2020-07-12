@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 
 declare var Mercadopago:any
@@ -17,7 +18,7 @@ export class MpServiceService {
 
     }
 
-    getIdentificationTypes(){
+    getIdentificationTypes():Observable<any>{
 
       return Mercadopago.getIdentificationTypes()
     }

@@ -17,19 +17,24 @@ export class Form2MpPage implements OnInit {
 
     this.mpService.setPublishableKey()
 
-    // this.mpService.getIdentificationTypes((resp)=>{
-    //   console.log(resp)
-    //   this.docType = resp
-    // })
-    Mercadopago.getIdentificationTypes((status, response)=>{
-      if (status !== 200){
+    // this.mpService.getIdentificationTypes().subscribe((status, resp)=>{
+    //   if (status !== 200){
         
-      }else{
-        console.log(response)
-        this.docType = response
-        console.log(this.docType)
-      }
-    })
+    //       }else{
+    //         console.log(resp)
+    //         this.docType = resp
+    //         console.log(this.docType)
+    //       }
+    // })
+    // Mercadopago.getIdentificationTypes((status, response)=>{
+    //   if (status !== 200){
+        
+    //   }else{
+    //     console.log(response)
+    //     this.docType = response
+    //     console.log(this.docType)
+    //   }
+    // })
    }
 
   ngOnInit() {

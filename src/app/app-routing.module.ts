@@ -23,6 +23,10 @@ const routes: Routes = [
     path: 'form-js',
     loadChildren: () => import('./pages/form-js/form-js.module').then( m => m.FormJsPageModule)
   },
+  {
+    path: 'form3-mp',
+    loadChildren: () => import('./pages/form3-mp/form3-mp.module').then( m => m.Form3MpPageModule)
+  },
 ];
 
 @NgModule({

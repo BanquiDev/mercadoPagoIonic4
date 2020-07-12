@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm, Validator } from '@angular/forms';
+import { Observable } from 'rxjs';
 //import {mercadopago} from 'mercadopago/index'
 //import * as metodos from './metodos.js';
 
@@ -18,17 +19,17 @@ var msjCuotas = [];
     "payment_method_id": respuesta,
     "amount": parseFloat(transaction_amount)
 
-    }, function (status, response) {
+    }, function (status, response:Observable<any>) {
     if (status == 200) {
         console.log(response[0].payer_costs)
         installments = response[0].payer_costs
       
         //  this.installments.options.length = 0;
-        response[0].payer_costs.forEach( installment => {
+            response[0].payer_costs.forEach( installment => {
             //let opt = document.createElement('option');
             msjCuotas.push( installment.recommended_message);
             nCuotas.push(installment.installments);
-            console.log(installment.installments)
+           // console.log(installment.installments)
             
            // this.installments.appendChild(opt);
             
@@ -81,8 +82,8 @@ export class FormMpPage implements OnInit {
     
     //mp.setPublishableKey('TEST-a3935daa-4d33-4f19-8f2b-62e117cc4158')
     this.paymentMethodId = '';
-    console.log(typeof this.paymentMethodId)
-    console.log(this.transaction_amount.value)
+  //  console.log(typeof this.paymentMethodId)
+  //  console.log(this.transaction_amount.value)
   }
   
 

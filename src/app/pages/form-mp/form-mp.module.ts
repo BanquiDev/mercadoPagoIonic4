@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { FormMpPageRoutingModule } from './form-mp-routing.module';
 
 import { FormMpPage } from './form-mp.page';
+import { ComponentsModuleModule } from '../../components/components-module/components-module.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    FormMpPageRoutingModule
+    FormMpPageRoutingModule,
+    ComponentsModuleModule
   ],
   declarations: [FormMpPage]
 })
