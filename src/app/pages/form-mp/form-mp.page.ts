@@ -128,6 +128,8 @@ export class FormMpPage implements OnInit {
     }
   }
 
+  
+
  
 
   doPay(formulario){

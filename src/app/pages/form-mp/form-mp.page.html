@@ -52,13 +52,13 @@
           onselectstart="return false" onpaste="return false" onCopy="return false" 
           onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off></ion-input>
         </ion-item>
-
+<!-- 
         <ion-item>
             <ion-label for="installments" color="primary">Cuotas</ion-label>
             <ion-select #installments id="installments" class="form-control" name="installments"></ion-select>
             <ion-select-option *ngFor=" let option of installmentOptions " value="{{option[0]|async}}">{{option[1] |async}}</ion-select-option>
 
-        </ion-item>
+        </ion-item> -->
         <ion-item>
           <app-data-cuotas [installmentOptions]="installmentOptions"></app-data-cuotas>
         </ion-item>

@@ -1,6 +1,6 @@
 <ion-content>
 
-  <form #formulario="ngForm"  (ngSubmit)="doPay(formulario)" id="pay" name="pay" >
+  <form action="/procesar_pago" method="post" id="pay" name="pay" >
     <fieldset>
       <ion-list>
         <ion-item>
@@ -13,7 +13,7 @@
         </ion-item>
         <ion-item>
             <ion-label for="cardNumber">Número de la tarjeta</ion-label>
-            <ion-input type="text" id="cardNumber" (onChange)="guessPaymentMethod($event)" data-checkout="cardNumber" onSelectStart="return false" 
+            <ion-input type="text" id="cardNumber"  data-checkout="cardNumber" (ionChange)="guessPayment($event)" onSelectStart="return false" 
             onPaste="return false" onCopy="return false" onCut="return false" onDrag="return false" 
             onDrop="return false" autocomplete=off ></ion-input>
         </ion-item>
@@ -41,8 +41,8 @@
         </ion-item>
         <ion-item>
             <ion-label for="installments">Cuotas</ion-label>
-            <ion-select id="installments" class="form-control" name="installments"></ion-select>
-            <ion-select-option></ion-select-option>
+            <select id="installments" class="form-control" name="installments"></select>
+            
         </ion-item>
         <ion-item>
           <ion-label for="docType" color="primary">Tipo de documento</ion-label>
@@ -59,7 +59,7 @@
             <ion-input type="email" id="email" name="email" value="test@test.com"></ion-input>
         </ion-item>  
         <ion-input type="hidden" name="payment_method_id" id="payment_method_id"></ion-input>
-        <ion-button type="submit" value="Pagar">Pagar</ion-button>
+        <ion-button type="submit" value="Pagar" (click)="pagar($event)">Pagar</ion-button>
       </ion-list>
     </fieldset>
   </form>
