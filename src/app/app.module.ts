@@ -11,13 +11,15 @@ import { AppRoutingModule } from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
 
 //import { mercadopago } from 'mercadopago/index'
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, 
             IonicModule.forRoot(), 
             AppRoutingModule,
-            HttpClientModule],
+            HttpClientModule,
+            FormsModule],
   providers: [
     StatusBar,
     SplashScreen,

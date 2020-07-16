@@ -1,4 +1,5 @@
-
+//var backendService = require('../app/services/backend-service.service')
+import * as backendService from '../app/services/backend-service.service'
 
 function hola(){
     console.log('hola')
@@ -94,8 +95,10 @@ if(cardNumber){
             card.setAttribute('value', response.id);
             form.appendChild(card);
             doSubmit=true;
-            console.log('pague')
-           // form.submit();
+            console.log(form.description.value)
+            //form.submit();
+            backendService.submitForm(form)
+            //console.log(backendService)
         }
     };    
 
