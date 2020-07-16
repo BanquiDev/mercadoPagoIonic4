@@ -1,5 +1,5 @@
 //var backendService = require('../app/services/backend-service.service')
-import * as backendService from '../app/services/backend-service.service'
+//import * as backendService from '../app/services/backend-service.service'
 
 function hola(){
     console.log('hola')
@@ -54,7 +54,7 @@ if(cardNumber){
                     let opt = document.createElement('option');
                     opt.text = installment.recommended_message;
                     opt.value = installment.installments;
-                    console.log(opt)
+                    //console.log(opt)
                     document.getElementById('installments').appendChild(opt);
                 });
             } else {
@@ -70,6 +70,8 @@ if(cardNumber){
         pay.addEventListener('submit', doPay);
     }
 
+    var formulario
+    
     function doPay(event){
         event.preventDefault();
        // console.log(data-checkout)
@@ -77,11 +79,11 @@ if(cardNumber){
             var $form = document.querySelector('#pay');
             console.log($form)
             Mercadopago.createToken($form, sdkResponseHandler);
-
+            console.log(formulario)
             return false;
         }
     };
-
+    
     function sdkResponseHandler(status, response) {
         if (status != 200 && status != 201) {
             console.log(status, response)
@@ -96,8 +98,17 @@ if(cardNumber){
             form.appendChild(card);
             doSubmit=true;
             console.log(form.description.value)
+            console.log(form.transaction_amount.value)
+            console.log(form.installments.value)
+            //console.log(form.docNumber)
+            console.log(form.email.value)
+            console.log(form.token.value)
+            console.log(form)
+            //console.log(form.docType.value)
+            formulario = form
+            console.log(formulario)
             //form.submit();
-            backendService.submitForm(form)
+            //backendService.submitForm(form)
             //console.log(backendService)
         }
     };    

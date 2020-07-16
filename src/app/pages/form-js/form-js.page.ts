@@ -51,7 +51,10 @@ export class FormJsPage implements OnInit {
 
   pagar(event){
     console.log(event)
-    doPay(event)
+    //doPay(event)
+    this.backendService.submitForm(event).subscribe((resp)=>{
+      console.log(resp)
+    })
   }
 
   onSubmit(form){
