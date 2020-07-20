@@ -148,6 +148,7 @@ export class FormMpPage implements OnInit {
         alert("verify filled data");
     }else{
         var form = this.formulario
+        console.log(form)
         // var card = document.createElement('input');
         // card.setAttribute('name', 'token');
         // card.setAttribute('type', 'hidden');

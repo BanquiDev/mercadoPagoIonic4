@@ -63,53 +63,55 @@ if(cardNumber){
         });
     }    
     
-    doSubmit = false;
-    let pay = document.querySelector('#pay')
-    if(pay){
+    // doSubmit = false;
+    // let pay = document.querySelector('#pay')
+    // if(pay){
 
-        pay.addEventListener('submit', doPay);
-    }
+    //     pay.addEventListener('submit', doPay);
+    // }
 
-    var formulario
+    // var formulario
+    // console.log(formulario)
+    // function doPay(event){
+    //     event.preventDefault();
+    //    // console.log(data-checkout)
+    //     if(!doSubmit){
+    //         var $form = document.querySelector('#pay');
+    //         console.log($form)
+    //         Mercadopago.createToken($form, sdkResponseHandler);
+    //         console.log(formulario)
+    //         return false;
+    //     }
+    // };
     
-    function doPay(event){
-        event.preventDefault();
-       // console.log(data-checkout)
-        if(!doSubmit){
-            var $form = document.querySelector('#pay');
-            console.log($form)
-            Mercadopago.createToken($form, sdkResponseHandler);
-            console.log(formulario)
-            return false;
-        }
-    };
-    
-    function sdkResponseHandler(status, response) {
-        if (status != 200 && status != 201) {
-            console.log(status, response)
-            alert("verify filled data");
-        }else{
-            console.log(status, response)
-            var form = document.querySelector('#pay');
-            var card = document.createElement('input');
-            card.setAttribute('name', 'token');
-            card.setAttribute('type', 'hidden');
-            card.setAttribute('value', response.id);
-            form.appendChild(card);
-            doSubmit=true;
-            console.log(form.description.value)
-            console.log(form.transaction_amount.value)
-            console.log(form.installments.value)
-            //console.log(form.docNumber)
-            console.log(form.email.value)
-            console.log(form.token.value)
-            console.log(form)
-            //console.log(form.docType.value)
-            formulario = form
-            console.log(formulario)
-            //form.submit();
-            //backendService.submitForm(form)
-            //console.log(backendService)
-        }
-    };    
+    // function sdkResponseHandler(status, response) {
+    //     if (status != 200 && status != 201) {
+    //         console.log(status, response)
+    //         alert("verify filled data");
+    //     }else{
+    //         console.log(status, response)
+    //         var form = document.querySelector('#pay');
+    //         var card = document.createElement('input');
+    //         card.setAttribute('name', 'token');
+    //         card.setAttribute('type', 'hidden');
+    //         card.setAttribute('value', response.id);
+    //         form.appendChild(card);
+    //         doSubmit=true;
+    //         console.log(form.description.value)
+    //         console.log(form.transaction_amount.value)
+    //         console.log(form.installments.value)
+    //         //console.log(form.docNumber)
+    //         console.log(form.email.value)
+    //         console.log(form.token.value)
+    //         console.log(form)
+    //         //console.log(form.docType.value)
+    //         formulario = form
+    //         console.log(formulario)
+    //         console.log(backendService)
+    //         return formulario
+    //         //form.submit();
+    //         //backendService.submitForm(form)
+            
+    //     }
+    // };    
 

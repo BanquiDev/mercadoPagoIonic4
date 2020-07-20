@@ -59,10 +59,14 @@
             <ion-select-option *ngFor=" let option of installmentOptions " value="{{option[0]|async}}">{{option[1] |async}}</ion-select-option>
 
         </ion-item> -->
-        <ion-item>
+        <!-- <ion-item>
           <app-data-cuotas [installmentOptions]="installmentOptions"></app-data-cuotas>
-        </ion-item>
-      
+        </ion-item> -->
+        <ion-item >
+          <ion-label for="installments" color="primary">Cuotas</ion-label>
+          <select id="installments" class="form-control" name="installments"></select>
+          
+      </ion-item>
         <ion-item>
           <ion-label for="docType" color="primary">Tipo de documento</ion-label>
           <ion-select id="docType" data-checkout="docType">

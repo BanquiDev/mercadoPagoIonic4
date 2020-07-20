@@ -1,0 +1,69 @@
+<ion-content>
+
+  <form [FormGroup]="uploadForm" (ngSubmit)="pagar($event)" #form action="" method="post" id="pay" name="pay">
+    <div>
+      <fieldset>
+        <ion-list>
+          <ion-item>
+              <ion-label for="description">Descripción</ion-label>                        
+              <ion-input type="text" formControlName="description" name="description" id="description" value="Ítem seleccionado"></ion-input>
+          </ion-item>                    
+          <ion-item>
+              <ion-label for="transaction_amount">Monto a pagar</ion-label>                        
+              <ion-input name="transaction_amount" formControlName="transaction_amount" id="transaction_amount" value="100"></ion-input>
+          </ion-item>
+          <ion-item>
+              <ion-label for="cardNumber">Número de la tarjeta</ion-label>
+              <ion-input type="text" id="cardNumber"  data-checkout="cardNumber"  onSelectStart="return false" 
+              onPaste="return false" onCopy="return false" onCut="return false" onDrag="return false" 
+              onDrop="return false" autocomplete=off ></ion-input>
+          </ion-item>
+          <ion-item>
+              <ion-label for="cardholderName">Nombre y apellido</ion-label>
+              <ion-input type="text" id="cardholderName" data-checkout="cardholderName" ></ion-input>
+          </ion-item>                                    
+          <ion-item>
+              <ion-label for="cardExpirationMonth">Mes de vencimiento</ion-label>
+              <ion-input type="text" id="cardExpirationMonth" data-checkout="cardExpirationMonth" 
+              onselectstart="return false" onpaste="return false" onCopy="return false" 
+              onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off ></ion-input>
+          </ion-item>
+          <ion-item>
+              <ion-label for="cardExpirationYear">Año de vencimiento</ion-label>
+              <ion-input type="text" id="cardExpirationYear" data-checkout="cardExpirationYear" 
+              onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" 
+              onDrag="return false" onDrop="return false" autocomplete=off ></ion-input>
+          </ion-item>
+          <ion-item>
+              <ion-label for="securityCode">Código de seguridad</ion-label>
+              <ion-input type="text" id="securityCode" data-checkout="securityCode" 
+              onselectstart="return false" onpaste="return false" onCopy="return false" 
+              onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off ></ion-input>
+          </ion-item>
+          <ion-item>
+              <ion-label for="installments">Cuotas</ion-label>
+              <select id="installments" formControlName="installments" class="form-control" name="installments"></select>
+              
+          </ion-item>
+          <ion-item>
+            <ion-label for="docType" color="primary">Tipo de documento</ion-label>
+            <ion-select id="docType" data-checkout="docType" >
+              <ion-select-option #options  *ngFor="let type of docType" value="{{type.id}}">{{type.name}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+              <ion-label for="docNumber">Número de documento</ion-label>
+              <ion-input type="text" id="docNumber" data-checkout="docNumber"></ion-input>
+          </ion-item>
+          <ion-item>
+              <ion-label for="email">Email</ion-label>
+              <ion-input type="email" id="email" name="email" formControlName="email" value="test@test.com"></ion-input>
+          </ion-item>  
+          <ion-input type="hidden" formControlName="payment_method_id" name="payment_method_id" id="payment_method_id"></ion-input>
+          <ion-button type="submit" value="Pagar" >Pagar</ion-button>
+        </ion-list>
+      </fieldset>
+    </div>
+  </form>
+
+</ion-content>

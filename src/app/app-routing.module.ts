@@ -18,6 +18,14 @@ const routes: Routes = [
   {
     path: 'form-js',
     loadChildren: () => import('./pages/form-js/form-js.module').then( m => m.FormJsPageModule)
+  },
+  {
+    path: 'form-mp2',
+    loadChildren: () => import('./pages/form-mp2/form-mp2.module').then( m => m.FormMp2PageModule)
+  },
+  {
+    path: 'form-mp3',
+    loadChildren: () => import('./pages/form-mp3/form-mp3.module').then( m => m.FormMp3PageModule)
   }
 ]
 
