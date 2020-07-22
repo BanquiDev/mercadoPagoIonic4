@@ -17,11 +17,11 @@ export class BackendServiceService {
    
    let json = JSON.stringify(form)
    let params = 'json='+json
-   console.log(form)
-      console.log(params)
+      //console.log(form)
+      //console.log(params)
     let headers = new HttpHeaders().set('Content-Type','application/x-www-form-urlencoded')
     //console.log(parseFloat(form.token.value))
-    return this.http.post('http://localhost:8000', params, {headers:headers, observe:'body'})
+    return this.http.post('http://localhost:8000', params, {headers:headers, observe:'body', responseType:'text'})
                           
   }
 }
