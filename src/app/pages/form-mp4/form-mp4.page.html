@@ -3,21 +3,21 @@
     <ion-buttons slot="start">
       <ion-back-button color="black"></ion-back-button>
     </ion-buttons>
-    <img src="./assets/version-horizontal-small.png" >
+    <img slot=""src="./assets/version-horizontal-small.png" >
   </ion-toolbar>
 </ion-header>
 
 
 <ion-content>
   
-  <form #mpForm="ngForm" [FormGroup]="cardForm" method="post" id="pay" name="pay" (ngSubmit)="pagar()" >
+  <form #mpForm="ngForm"  method="post" id="pay" name="pay" (ngSubmit)="pagar()" >
 
     <fieldset >
       <ion-list>
         <!-- <div [formGroup]="mpForm"> -->
         <ion-item>
-            <ion-label color="primary" for="description">Descripción </ion-label>                        
-            <ion-input type="text" name="description" [(ngModel)]="formData.description" 
+            <!-- <ion-label color="primary" for="description">Descripción </ion-label>                         -->
+            <ion-input type="text" name="description" [(ngModel)]="formData.description" placeholder="Descripción"
             id="description"  required class="form-control" #description="ngModel" ></ion-input>
             <div *ngIf="description.invalid && (description.dirty || description.touched)"
               class="alert alert-danger">
@@ -35,9 +35,9 @@
               </div>
         </ion-item>                    
         <ion-item>
-            <ion-label color="primary" for="transaction_amount">Monto a pagar </ion-label>                        
+            <!-- <ion-label color="primary" for="transaction_amount">Monto a pagar </ion-label>                         -->
             <ion-input name="transaction_amount" [(ngModel)]="formData.transaction_amount" 
-            id="transaction_amount" required class="form-control" #transaction_amount="ngModel" ></ion-input>
+            id="transaction_amount" required class="form-control" #transaction_amount="ngModel" placeholder="Monto a pagar" ></ion-input>
             <div *ngIf="transaction_amount.invalid && (transaction_amount.dirty || transaction_amount.touched)"
               class="alert alert-danger">
 
@@ -54,11 +54,11 @@
               </div>
         </ion-item>
         <ion-item>
-            <ion-label color="primary" for="cardNumber">Número de la tarjeta </ion-label>
+            <!-- <ion-label color="primary" for="cardNumber">Número de tarjeta </ion-label> -->
             <ion-input type="text" id="cardNumber"  data-checkout="cardNumber"  onSelectStart="return false" 
             onPaste="return false" onCopy="return false" onCut="return false" onDrag="return false" 
             onDrop="return false" autocomplete=off (ionChange)="card($event)"
-            class="form-control"></ion-input>
+            class="form-control" placeholder="Numero de Tarjeta"></ion-input>
 
             <!-- <span>{{ mpForm.controls['cardNumber']?.value }}</span> -->
             <!-- <div *ngIf="cardNumber.invalid && (cardNumber.dirty || cardNumber.touched)"
@@ -76,29 +76,29 @@
             </div> -->
         </ion-item>
         <ion-item>
-            <ion-label color="primary" for="cardholderName">Nombre y apellido</ion-label>
-            <ion-input type="text" id="cardholderName" data-checkout="cardholderName"></ion-input>
+            <!-- <ion-label color="primary" for="cardholderName">Nombre y apellido</ion-label> -->
+            <ion-input type="text" id="cardholderName" data-checkout="cardholderName" placeholder="Nombre y Apellido"></ion-input>
         </ion-item>                                    
         <ion-item>
-            <ion-label color="primary" for="cardExpirationMonth">Mes de vencimiento</ion-label>
+            <!-- <ion-label color="primary" for="cardExpirationMonth">Mes de vencimiento</ion-label> -->
             <ion-input type="text" id="cardExpirationMonth" data-checkout="cardExpirationMonth" 
             onselectstart="return false" onpaste="return false" onCopy="return false" 
             onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off 
-            required maxlength="2" ></ion-input>
+            required maxlength="2" placeholder="Mes de vencimiento"></ion-input>
         </ion-item>
         <ion-item>
-            <ion-label color="primary" for="cardExpirationYear">Año de vencimiento</ion-label>
+            <!-- <ion-label color="primary" for="cardExpirationYear">Año de vencimiento</ion-label> -->
             <ion-input type="text" id="cardExpirationYear" data-checkout="cardExpirationYear" 
             onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" 
             onDrag="return false" onDrop="return false" autocomplete=off 
-            required maxlength="2" ></ion-input>
+            required maxlength="2" placeholder="Año de vencimiento"></ion-input>
         </ion-item>
         <ion-item>
-            <ion-label color="primary" for="securityCode">Código de seguridad</ion-label>
+            <!-- <ion-label color="primary" for="securityCode">Código de seguridad</ion-label> -->
             <ion-input type="text" id="securityCode" data-checkout="securityCode" 
             onselectstart="return false" onpaste="return false" onCopy="return false" 
             onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off 
-            required maxlength="4"></ion-input>
+            required maxlength="4" placeholder="Código de seguridad"></ion-input>
         </ion-item>
         <ion-item>
             <ion-label color="primary" for="installments">Cuotas</ion-label>
@@ -115,14 +115,14 @@
           </ion-select>
         </ion-item>
         <ion-item>
-            <ion-label color="primary" for="docNumber">Número de documento</ion-label>
-            <ion-input type="text" id="docNumber" data-checkout="docNumber" required  
+            <!-- <ion-label color="primary" for="docNumber">Número de documento</ion-label> -->
+            <ion-input type="text" id="docNumber" data-checkout="docNumber" required placeholder="Número de documento" 
             ></ion-input>
         </ion-item>
         <ion-item>
-            <ion-label color="primary" for="email">Email</ion-label>
+            <!-- <ion-label color="primary" for="email">Email</ion-label> -->
             <ion-input type="email" id="email" name="email" [(ngModel)]="formData.email"required
-            #email="ngModel"></ion-input>
+            #email="ngModel" placeholder="Email" ></ion-input>
             <div *ngIf="email.invalid && (email.dirty || email.touched)"
             class="alert alert-danger">
 

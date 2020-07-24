@@ -9,20 +9,18 @@ import { Observable } from 'rxjs';
 })
 export class BackendServiceService {
 
-  constructor(public http: HttpClient) {
-    
+  constructor(public http: HttpClient) { 
    }
 
-  submitForm(form):Observable<any>{
+  submitForm(form): Observable<any>{
    
-   let json = JSON.stringify(form)
-   let params = 'json='+json
+    const json = JSON.stringify(form);
+    const params = 'json=' + json;
       //console.log(form)
       //console.log(params)
-    let headers = new HttpHeaders().set('Content-Type','application/x-www-form-urlencoded')
+    const headers = new HttpHeaders().set('Content-Type','application/x-www-form-urlencoded');
     //console.log(parseFloat(form.token.value))
-    return this.http.post('http://localhost:8000', params, {headers:headers, observe:'body', responseType:'json'})
-                          
+    return this.http.post('http://localhost:8000', params, {headers:headers, observe: 'body', responseType: 'json'});
   }
 }
 
