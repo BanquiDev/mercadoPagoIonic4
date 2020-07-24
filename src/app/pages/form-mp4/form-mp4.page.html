@@ -10,7 +10,7 @@
 
 <ion-content>
   
-  <form #mpForm="ngForm" action="" method="post" id="pay" name="pay" >
+  <form #mpForm="ngForm" [FormGroup]="cardForm" method="post" id="pay" name="pay" (ngSubmit)="pagar()" >
 
     <fieldset >
       <ion-list>
@@ -18,24 +18,66 @@
         <ion-item>
             <ion-label color="primary" for="description">Descripción </ion-label>                        
             <ion-input type="text" name="description" [(ngModel)]="formData.description" 
-            id="description" value="Ítem seleccionado" required class="form-control" ></ion-input>
-           
+            id="description"  required class="form-control" #description="ngModel" ></ion-input>
+            <div *ngIf="description.invalid && (description.dirty || description.touched)"
+              class="alert alert-danger">
+
+                <div *ngIf="description.errors.required" class="alert alert-danger">
+                  Ingrese una Descripción por favor
+                </div>
+                <div *ngIf="description.errors.minlength">
+                  Name must be at least 4 characters long.
+                </div>
+                <!-- <div *ngIf="description.errors.forbiddenName">
+                  Name cannot be Bob.
+                </div> -->
+
+              </div>
         </ion-item>                    
         <ion-item>
             <ion-label color="primary" for="transaction_amount">Monto a pagar </ion-label>                        
             <ion-input name="transaction_amount" [(ngModel)]="formData.transaction_amount" 
-            id="transaction_amount" required class="form-control" ></ion-input>
+            id="transaction_amount" required class="form-control" #transaction_amount="ngModel" ></ion-input>
+            <div *ngIf="transaction_amount.invalid && (transaction_amount.dirty || transaction_amount.touched)"
+              class="alert alert-danger">
+
+                <div *ngIf="transaction_amount.errors.required" class="alert alert-danger">
+                   <span color="gray">Ingrese un monto por favor</span>
+                </div>
+                <!-- <div *ngIf="transaction_amount.errors.minlength">
+                  Name must be at least 4 characters long.
+                </div> -->
+                <!-- <div *ngIf="description.errors.forbiddenName">
+                  Name cannot be Bob.
+                </div> -->
+
+              </div>
         </ion-item>
         <ion-item>
             <ion-label color="primary" for="cardNumber">Número de la tarjeta </ion-label>
             <ion-input type="text" id="cardNumber"  data-checkout="cardNumber"  onSelectStart="return false" 
             onPaste="return false" onCopy="return false" onCut="return false" onDrag="return false" 
-            onDrop="return false" autocomplete=off maxlength="16" minlength="15" (ionChange)="card($event)"></ion-input>
+            onDrop="return false" autocomplete=off (ionChange)="card($event)"
+            class="form-control"></ion-input>
+
+            <!-- <span>{{ mpForm.controls['cardNumber']?.value }}</span> -->
+            <!-- <div *ngIf="cardNumber.invalid && (cardNumber.dirty || cardNumber.touched)"
+            class="alert alert-danger">
+
+              <div *ngIf="cardNumber.errors.required" class="alert alert-danger">
+                 <span color="gray">Ingrese un monto por favor</span>
+              </div>
+               <div *ngIf="transaction_amount.errors.minlength">
+                Name must be at least 4 characters long.
+              </div>
+              <div *ngIf="description.errors.forbiddenName">
+                Name cannot be Bob.
+              </div> 
+            </div> -->
         </ion-item>
         <ion-item>
             <ion-label color="primary" for="cardholderName">Nombre y apellido</ion-label>
-            <ion-input type="text" id="cardholderName" data-checkout="cardholderName" 
-           ></ion-input>
+            <ion-input type="text" id="cardholderName" data-checkout="cardholderName"></ion-input>
         </ion-item>                                    
         <ion-item>
             <ion-label color="primary" for="cardExpirationMonth">Mes de vencimiento</ion-label>
@@ -60,17 +102,17 @@
         </ion-item>
         <ion-item>
             <ion-label color="primary" for="installments">Cuotas</ion-label>
-            <select id="installments" class="form-control" [(ngModel)]="formData.installments" 
-            name="installments"  ></select>
+            <ion-select id="installments" class="form-control" [(ngModel)]="formData.installments" 
+            name="installments"></ion-select>
             
         </ion-item>
         <ion-item>
-          <ion-label color="primary" for="docType" >Tipo de documento</ion-label>
-          <select id="docType" data-checkout="docType"></select>
-          <!-- <ion-label for="docType" color="primary">Tipo de documento</ion-label>
+          <!-- <ion-label color="primary" for="docType" >Tipo de documento</ion-label>
+          <select id="docType" data-checkout="docType"></select> -->
+          <ion-label for="docType" color="primary">Tipo de documento</ion-label>
           <ion-select id="docType" data-checkout="docType">
             <ion-select-option #options  *ngFor="let type of docType" value="{{type.id}}">{{type.name}}</ion-select-option>
-          </ion-select> -->
+          </ion-select>
         </ion-item>
         <ion-item>
             <ion-label color="primary" for="docNumber">Número de documento</ion-label>
@@ -79,11 +121,19 @@
         </ion-item>
         <ion-item>
             <ion-label color="primary" for="email">Email</ion-label>
-            <ion-input type="email" id="email" name="email" [(ngModel)]="formData.email"required></ion-input>
+            <ion-input type="email" id="email" name="email" [(ngModel)]="formData.email"required
+            #email="ngModel"></ion-input>
+            <div *ngIf="email.invalid && (email.dirty || email.touched)"
+            class="alert alert-danger">
+
+              <div *ngIf="email.errors.required" class="alert alert-danger">
+                 <span color="grey">Ingrese un mail valido por favor</span>
+              </div>
+            </div>
         </ion-item>  
         <ion-input type="hidden" [(ngModel)]="formData.payment_method_id" name="payment_method_id" id="payment_method_id"></ion-input>
-        <ion-button type="submit" value="Pagar" expand="full" (click)="pagar()" [disabled]="!mpForm.form.valid">Pagar</ion-button>
-      <!-- </div> -->
+        <ion-button type="submit" value="Pagar" expand="full" [disabled]="!mpForm.form.valid">Pagar</ion-button>
+      
       </ion-list>
     </fieldset>
     

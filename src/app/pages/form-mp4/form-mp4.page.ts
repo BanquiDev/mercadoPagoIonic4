@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, NgForm, FormControl, Validators } from '@angular/forms';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { BackendServiceService } from '../../services/backend-service.service';
 import { MercadoPagoService } from '../../services/mercado-pago.service';
@@ -12,9 +12,9 @@ declare var Mercadopago:any;
   styleUrls: ['./form-mp4.page.scss'],
 })
 export class FormMp4Page implements OnInit {
-  docType:any;
+  docType:string;
   isLoading: boolean;
-  mpForm;
+  mpForm:NgForm
   payment_method_id:string;
   thumbnail:string;
   formData = { 
@@ -28,18 +28,33 @@ export class FormMp4Page implements OnInit {
       number:''
     },
     token:'',  }
-  constructor(private backendService:BackendServiceService,
+    cardForm:FormGroup 
+    cardNumber = new FormControl('', [Validators.required, Validators.maxLength(18), Validators.minLength(15)])
+    constructor(private backendService:BackendServiceService,
     public alertCtrl: AlertController,
     public loadingController: LoadingController,
     private mpService:MercadoPagoService,
     private fb:FormBuilder) {
+     
+      //this.mpService.getIdentificationTypes() 
+      Mercadopago.setPublishableKey('TEST-a3935daa-4d33-4f19-8f2b-62e117cc4158')
+      Mercadopago.getIdentificationTypes((status, response)=>{
+        if (status !== 200){
+          this.presentAlert('Hubo un Problema. Actualice la página')
+        }else{ 
+          this.docType = response
+        }
+      })
 
-      this.mpService.getIdentificationTypes() 
+      this.fb.group({
+         "cardNumber":["", [Validators.required, Validators.maxLength(18)]],
+        "cardHolderName":["", [Validators.required]]
+      })
      }
 
   ngOnInit() {
 
-
+    console.log(this.cardForm)
   }
   card(event){
   
@@ -61,32 +76,33 @@ export class FormMp4Page implements OnInit {
               this.payment_method_id = response[0].id;
               this.thumbnail = response[0].thumbnail
               console.log(this.thumbnail)
-              let thumbnail = document.createElement('ion-icon')
+              let thumbnail = document.createElement('img')
               thumbnail.src = this.thumbnail
               console.log(thumbnail)
-              // getInstallments()
+               document.getElementById('cardNumber').appendChild(thumbnail)
+
               Mercadopago.getInstallments({
                 "payment_method_id": this.payment_method_id,
                 "amount": parseFloat(this.formData.transaction_amount)
                 
               }, function (status, response) {
                 if (status == 200) {
-                    document.getElementById('installments').options.length = 0;
+                   // <HTMLOptionElement>document.getElementById('installments').options.length = 0;
                     console.log(response[0].payer_costs)
                     response[0].payer_costs.forEach( installment => {
-                        let opt = document.createElement('option');
-                        opt.text = installment.recommended_message;
+                        let opt = document.createElement('ion-select-option');
+                        opt.innerText = installment.recommended_message;
                         opt.value = installment.installments;
-                        //console.log(opt)
                         document.getElementById('installments').appendChild(opt);
                     });
                 } else {
                   console.log(status, response)
-                    //console.log('Hubo un Error. Reingrese el numero de Tarjeta')
+                    
                   alert('Hubo un Error. Reingrese el numero de Tarjeta');
                 }
              });
             }else{
+              console.log(status, response)
               this.presentAlert('El numero de Tarjeta no es válido. Por favor ingreselo nuevamente')
             }
           });
@@ -102,15 +118,22 @@ export class FormMp4Page implements OnInit {
 
         Mercadopago.createToken(($form), (status, resp)=>{
           console.log(status, resp)
-          if(status == 400){alert('Los datos de tu tarjeta no son validos. Por favor ingresalos nuevamente')}
-            var form:HTMLFormElement = document.querySelector('#pay');
+          if(status == 400){
             
-            this.formData.token = resp.id
-            this.formData.identification.type = resp.cardholder.identification.type
-            this.formData.identification.number = resp.cardholder.identification.number
-            this.formData.installments = form.installments.value
-            this.formData.payment_method_id = this.payment_method_id
-            console.log(this.formData)
+            alert('Los datos de tu tarjeta no son validos. Por favor ingresalos nuevamente')
+            return
+          }
+          var form:HTMLFormElement = document.querySelector('#pay');
+          
+          this.formData.token = resp.id
+          this.formData.identification.type = resp.cardholder.identification.type
+          this.formData.identification.number = resp.cardholder.identification.number
+          this.formData.installments = form.installments.value
+          this.formData.payment_method_id = this.payment_method_id
+          console.log(this.formData)
+          
+            
+          
             
             this.backendService.submitForm(this.formData).subscribe((response)=>{
               console.log(response)
@@ -118,10 +141,17 @@ export class FormMp4Page implements OnInit {
                 
                 this.dismiss()
                 
-                if(response.status == 'approved'){ this.presentAlert('El pago ha sido aprobado')}
-                else if(response.status == 'in_process'){ this.presentAlert('Estamos procesando tu pago. No te preocupes, en menos de 2 días hábiles te avisaremos por e-mail si se acreditó.')}
+                if(response.status == 'approved'){ 
+                  this.presentAlert('El pago ha sido aprobado')
+                  this.mpForm.reset()
+                }
+                else if(response.status == 'in_process')
+                { this.presentAlert('Estamos procesando tu pago. No te preocupes, en menos de 2 días hábiles te avisaremos por e-mail si se acreditó.')
+                this.mpForm.reset()
+                }
                 else{
                   this.presentAlert('No pudimos procesar tu pago.')
+                  this.mpForm.reset()
                 }
               }
             }, (error)=>{
@@ -134,7 +164,7 @@ export class FormMp4Page implements OnInit {
         })
     }
     console.log(this.mpForm)
-   // this.mpForm.reset()
+   this.mpForm.reset()
 
   }
            
