@@ -21,7 +21,7 @@ export class BackendServiceService {
       //console.log(params)
     let headers = new HttpHeaders().set('Content-Type','application/x-www-form-urlencoded')
     //console.log(parseFloat(form.token.value))
-    return this.http.post('http://localhost:8000', params, {headers:headers, observe:'body', responseType:'text'})
+    return this.http.post('http://localhost:8000', params, {headers:headers, observe:'body', responseType:'json'})
                           
   }
 }

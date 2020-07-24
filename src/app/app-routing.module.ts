@@ -26,7 +26,11 @@ const routes: Routes = [
   {
     path: 'form-mp3',
     loadChildren: () => import('./pages/form-mp3/form-mp3.module').then( m => m.FormMp3PageModule)
+  },  {
+    path: 'form-mp4',
+    loadChildren: () => import('./pages/form-mp4/form-mp4.module').then( m => m.FormMp4PageModule)
   }
+
 ]
 
 @NgModule({

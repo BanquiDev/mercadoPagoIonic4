@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { MercadoPagoService } from '../../services/mercado-pago.service';
 import { BackendServiceService } from '../../services/backend-service.service';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, FormGroupDirective} from '@angular/forms';
 
 declare var Mercadopago: any;
 
@@ -13,8 +13,22 @@ declare var Mercadopago: any;
 export class FormMp3Page implements OnInit {
   docType:any;
   doSubmit
-  uploadForm:FormGroup
+  
+  //tokenForm:FormGroup
   @ViewChild('form', {read:ViewContainerRef}) form;
+
+  uploadForm:FormGroup = new FormGroup({
+    transaction_amount:new FormControl (['']),
+    description:new FormControl (['']),
+    installments:new FormControl (['']),
+    payment_method_id:new FormControl (['']),
+    token:new FormControl (['']),
+    email:new FormControl ([''])
+  });
+
+  tokenForm = new FormGroup({
+    cardNumber:new FormControl([''])
+  })
 
   constructor(public backendService:BackendServiceService,
               private mpService: MercadoPagoService,
@@ -35,17 +49,22 @@ export class FormMp3Page implements OnInit {
    }
 
   ngOnInit() {
-    this.uploadForm = this.formBuilder.group({
-      transaction_amount:[''],
-      description: [''],
-      installments:[''],
-      payment_method_id:[''],
-      token:[''],
-      email:['']
-    });
+    
+
+  
   }
 
-  pagar(){
+  get cardNumber(){
+    return this.tokenForm.get('cardNumber')
+  }
+
+  get transaction_amount(){
+    return this.tokenForm.get('transaction_amount')
+  }
+
+  pagar(event){
+    console.log(this.cardNumber)
+    console.log(this.transaction_amount)
     console.log(this.uploadForm)
     var doSubmit = false;
     let pay = document.querySelector('#pay')
@@ -55,7 +74,7 @@ export class FormMp3Page implements OnInit {
     }
     console.log(this.uploadForm)
     console.log(this.form)
-    Mercadopago.createToken((this.form), (status, resp)=>{
+    Mercadopago.createToken((this.uploadForm), (status, resp)=>{
       console.log(status, resp)
       var form = document.querySelector('#pay');
         var card = document.createElement('input');
@@ -72,6 +91,7 @@ export class FormMp3Page implements OnInit {
     })
     function doPay(event){
     event.preventDefault();
+
     // console.log(data-checkout)
       if(!doSubmit){
         var $form = document.querySelector('#pay');
