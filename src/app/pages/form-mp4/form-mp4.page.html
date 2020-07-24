@@ -16,9 +16,10 @@
       <ion-list>
         <!-- <div [formGroup]="mpForm"> -->
         <ion-item>
-            <!-- <ion-label color="primary" for="description">Descripción </ion-label>                         -->
-            <ion-input type="text" name="description" [(ngModel)]="formData.description" placeholder="Descripción"
-            id="description"  required class="form-control" #description="ngModel" ></ion-input>
+                      
+            <ion-input type="text" name="description" [(ngModel)]="formData.description" 
+            placeholder="Descripción"id="description"  required class="form-control" 
+            #description="ngModel" ></ion-input>
             <div *ngIf="description.invalid && (description.dirty || description.touched)"
               class="alert alert-danger">
 
@@ -34,8 +35,7 @@
 
               </div>
         </ion-item>                    
-        <ion-item>
-            <!-- <ion-label color="primary" for="transaction_amount">Monto a pagar </ion-label>                         -->
+        <ion-item>             
             <ion-input name="transaction_amount" [(ngModel)]="formData.transaction_amount" 
             id="transaction_amount" required class="form-control" #transaction_amount="ngModel" placeholder="Monto a pagar" ></ion-input>
             <div *ngIf="transaction_amount.invalid && (transaction_amount.dirty || transaction_amount.touched)"
@@ -44,43 +44,21 @@
                 <div *ngIf="transaction_amount.errors.required" class="alert alert-danger">
                    <span color="gray">Ingrese un monto por favor</span>
                 </div>
-                <!-- <div *ngIf="transaction_amount.errors.minlength">
-                  Name must be at least 4 characters long.
-                </div> -->
-                <!-- <div *ngIf="description.errors.forbiddenName">
-                  Name cannot be Bob.
-                </div> -->
-
+             
               </div>
         </ion-item>
         <ion-item>
-            <!-- <ion-label color="primary" for="cardNumber">Número de tarjeta </ion-label> -->
             <ion-input type="text" id="cardNumber"  data-checkout="cardNumber"  onSelectStart="return false" 
             onPaste="return false" onCopy="return false" onCut="return false" onDrag="return false" 
             onDrop="return false" autocomplete=off (ionChange)="card($event)"
             class="form-control" placeholder="Numero de Tarjeta"></ion-input>
 
-            <!-- <span>{{ mpForm.controls['cardNumber']?.value }}</span> -->
-            <!-- <div *ngIf="cardNumber.invalid && (cardNumber.dirty || cardNumber.touched)"
-            class="alert alert-danger">
-
-              <div *ngIf="cardNumber.errors.required" class="alert alert-danger">
-                 <span color="gray">Ingrese un monto por favor</span>
-              </div>
-               <div *ngIf="transaction_amount.errors.minlength">
-                Name must be at least 4 characters long.
-              </div>
-              <div *ngIf="description.errors.forbiddenName">
-                Name cannot be Bob.
-              </div> 
-            </div> -->
         </ion-item>
         <ion-item>
-            <!-- <ion-label color="primary" for="cardholderName">Nombre y apellido</ion-label> -->
-            <ion-input type="text" id="cardholderName" data-checkout="cardholderName" placeholder="Nombre y Apellido"></ion-input>
+            <ion-input type="text" id="cardholderName" data-checkout="cardholderName" 
+            placeholder="Nombre y Apellido"></ion-input>
         </ion-item>                                    
         <ion-item>
-            <!-- <ion-label color="primary" for="cardExpirationMonth">Mes de vencimiento</ion-label> -->
             <ion-input type="text" id="cardExpirationMonth" data-checkout="cardExpirationMonth" 
             onselectstart="return false" onpaste="return false" onCopy="return false" 
             onCut="return false" onDrag="return false" onDrop="return false" autocomplete=off 
@@ -116,8 +94,8 @@
         </ion-item>
         <ion-item>
             <!-- <ion-label color="primary" for="docNumber">Número de documento</ion-label> -->
-            <ion-input type="text" id="docNumber" data-checkout="docNumber" required placeholder="Número de documento" 
-            ></ion-input>
+            <ion-input type="text" id="docNumber" data-checkout="docNumber" required 
+            placeholder="Número de documento" maxlength="9"></ion-input>
         </ion-item>
         <ion-item>
             <!-- <ion-label color="primary" for="email">Email</ion-label> -->
