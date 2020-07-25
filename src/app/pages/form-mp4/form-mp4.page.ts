@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, FormControl, Validators } from '@angular/forms';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { BackendServiceService } from '../../services/backend-service.service';
@@ -11,7 +11,7 @@ declare var Mercadopago: any;
   templateUrl: './form-mp4.page.html',
   styleUrls: ['./form-mp4.page.scss'],
 })
-export class FormMp4Page implements OnInit {
+export class FormMp4Page implements OnInit, OnDestroy {
   docType: string;
   isLoading: boolean;
   mpForm: NgForm;
@@ -39,31 +39,27 @@ export class FormMp4Page implements OnInit {
                 /*this.mpService.getIdentificationTypes()*/
 
                 Mercadopago.setPublishableKey('TEST-a3935daa-4d33-4f19-8f2b-62e117cc4158');
-                Mercadopago.getIdentificationTypes((status, response) => {
-                  if (status !== 200){
-                    this.presentAlert('Hubo un Problema. Actualice la página');
-                  }else{
-                    this.docType = response;
-                  }
-                });
+                this.tiposDeDocumentos();
 
                 this.fb.group({
                   cardNumber: ['', [Validators.required, Validators.maxLength(18)]],
                   cardHolderName: ['', [Validators.required]]
                 });
               }
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
+  }
 
   ngOnInit() {
 
-    console.log(this.cardForm);
+    console.log(this.mpForm);
   }
 
   card(event){
-    /*console.log(event.target.value)*/
+   
     const cardNumber = event.target.value;
     this.mpService.getPaymentsMethods(cardNumber);
-    // guessPaymentMethod(cardNumber)
-    //  console.log(cardNumber)
+    
     if (cardNumber.length >= 6 && cardNumber.length < 7) {
           let bin = cardNumber.substring(0,6);
           
@@ -77,6 +73,7 @@ export class FormMp4Page implements OnInit {
               console.log(this.thumbnail);
               const thumbnail = document.createElement('img');
               thumbnail.src = this.thumbnail;
+              thumbnail.setAttribute('id', 'logoTarjeta')
               console.log(thumbnail);
               document.getElementById('cardNumber').appendChild(thumbnail);
 
@@ -95,12 +92,12 @@ export class FormMp4Page implements OnInit {
                     });
                 } else {
                   console.log(status, response);
-                    
-                  alert('Hubo un Error. Reingrese el numero de Tarjeta');
+                  this.presentAlert('Hubo un Error. Reingrese el numero de Tarjeta');
                 }
              });
             }else{
               console.log(status, response);
+              
               this.presentAlert('El numero de Tarjeta no es válido. Por favor ingreselo nuevamente');
             }
           });
@@ -115,13 +112,19 @@ export class FormMp4Page implements OnInit {
         const $form = document.querySelector('#pay');
 
         Mercadopago.createToken(($form), (status, resp) => {
+          
+          const form: HTMLFormElement = document.querySelector('#pay');
           console.log(status, resp);
           if(status === 400){
-            
-            alert('Los datos de tu tarjeta no son validos. Por favor ingresalos nuevamente');
+            console.log(resp.message);
+            console.log(resp.cause[0].description)
+            this.dismiss();
+            this.presentAlert('Los datos de tu tarjeta no son validos. Por favor ingresalos nuevamente');
+            form.reset();
+            document.getElementById('logoTarjeta').remove();
+            this.tiposDeDocumentos();
             return;
           }
-          const form: HTMLFormElement = document.querySelector('#pay');
           
           this.formData.token = resp.id;
           this.formData.identification.type = resp.cardholder.identification.type;
@@ -132,35 +135,65 @@ export class FormMp4Page implements OnInit {
           
           this.backendService.submitForm(this.formData).subscribe((response) => {
               console.log(response);
-              if(response){
-                
-                this.dismiss();
-                
+              if (response) {
                 if (response.status === 'approved'){
-                  this.presentAlert('El pago ha sido aprobado');
+                  this.presentAlert(`¡Listo! Se acreditó tu pago. En tu resumen verás el cargo de $ ${this.formData.transaction_amount}`);
+                  this.dismiss();
                   this.mpForm.reset();
+                  form.reset();
+                  document.getElementById('logoTarjeta').remove();
                 }
-                else if(response.status === 'in_process')
-                { this.presentAlert('Estamos procesando tu pago. No te preocupes, en menos de 2 días hábiles te avisaremos por e-mail si se acreditó.');
-                  this.mpForm.reset();
+                else if (response.status === 'in_process'){
+                  if(response.status_detail === 'pending_contingency'){
+                    this.presentAlert('Estamos procesando tu pago. No te preocupes, en menos de 2 días hábiles te avisaremos por e-mail si se acreditó.');
+                    this.dismiss();
+                    form.reset();
+                    document.getElementById('logoTarjeta').remove();
+                  }else{
+                    this.presentAlert('No te preocupes, menos de 2 días hábiles te avisaremos por e-mail si se acreditó o si necesitamos más información.');
+                    this.dismiss();
+                    form.reset();
+                    document.getElementById('logoTarjeta').remove();
+                  }
                 }
                 else{
-                  this.presentAlert('No pudimos procesar tu pago.');
-                  this.mpForm.reset();
+                  switch(response.status_detail){
+                    case 'cc_rejected_call_for_authorize':
+                      this.presentAlert(`Debes autorizar ante ${this.formData.payment_method_id} el pago de amount.`);
+                      this.dismiss();
+                      form.reset();
+                      document.getElementById('logoTarjeta').remove();
+                      break;
+                    case 'cc_rejected_insufficient_amount':
+                      this.presentAlert(`Tu Tarjeta ${this.formData.payment_method_id} no tiene fondos suficientes`);
+                      this.dismiss();
+                      form.reset();
+                      document.getElementById('logoTarjeta').remove();
+                      break;
+                    case 'cc_rejected_duplicated_payment':
+                      this.presentAlert(`Si necesitas volver a pagar usa otra tarjeta u otro medio de pago.`);
+                      this.dismiss();
+                      form.reset();
+                      document.getElementById('logoTarjeta').remove();
+                      break;
+                    default:
+                    this.presentAlert('No pudimos procesar tu pago.');
+                    this.dismiss();
+                    form.reset();
+                    document.getElementById('logoTarjeta').remove();
+                    break;  
+                  }
                 }
               }
-            }, (error)=>{
+            }, (error) => {
               console.log(error);
+              this.dismiss();
               this.presentAlert('Error de conexion con MercadoPago.');
+              form.reset();
+              document.getElementById('logoTarjeta').remove();
             });
-        }, (error) => {
-          console.log(error);
-          this.presentAlert('La tarjeta de crédito es no es válida. Ingresa tus datos Nuevamente');
         });
     }
-    console.log(this.mpForm);
-    this.mpForm.reset();
-
   }
 
   async presentAlert(message: string) {
@@ -192,5 +225,15 @@ export class FormMp4Page implements OnInit {
   async dismiss() {
     this.isLoading = false;
     return await this.loadingController.dismiss().then(() => console.log('dismissed'));
+  }
+
+  tiposDeDocumentos(){
+    Mercadopago.getIdentificationTypes((status, response) => {
+      if (status !== 200){
+        this.presentAlert('Hubo un Problema. Actualice la página');
+      }else{
+        this.docType = response;
+      }
+    });
   }
 }
